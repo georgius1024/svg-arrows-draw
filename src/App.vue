@@ -1,4 +1,5 @@
 <template>
+  <p style="text-align: center;">Click to plot a line. Backspace to undo. Enter to finish</p>
   <template v-if="points.length">
     <template v-for="(point, index) in points">
       <span
@@ -99,12 +100,25 @@ export default {
     this.mouseMoveListener = (e) => {
       this.current = this.snapped({ x: e.pageX, y: e.pageY });
     };
+    this.keyUpHandler = (e) => {
+      if (['Escape', 'Backspace'].includes(e.key)) {
+        this.points.pop()
+      }
+      if (['Enter'].includes(e.key)) {
+        this.current = {}
+        document.removeEventListener("mouseup", this.mouseUpListener);
+        document.removeEventListener("mousemove", this.mouseMoveListener);
+        document.removeEventListener("keyup", this.keyUpHandler);
+      }
+    }
     document.addEventListener("mouseup", this.mouseUpListener);
     document.addEventListener("mousemove", this.mouseMoveListener);
+    document.addEventListener("keyup", this.keyUpHandler);
   },
   beforeUnmount() {
     document.removeEventListener("mouseup", this.mouseUpListener);
     document.removeEventListener("mousemove", this.mouseMoveListener);
+    document.removeEventListener("keyup", this.keyUpHandler);
   },
   methods: {
     snapToGrid(value, step = 50) {
