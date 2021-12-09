@@ -6,6 +6,7 @@
     :viewBox="viewBox"
     :style="style"
   >
+
     <rect
       :x="0"
       :y="0"
@@ -15,22 +16,42 @@
       fill="white"
       stroke-width="1"
     />
-    <!-- <circle
-      :cx="x1"
-      :cy="y1"
-      :r="stroke - 1"
+    <line
+      :x1="x1"
+      :y1="y1"
+      :x2="x2"
+      :y2="y2"
+      stroke="red" :stroke-width="stroke" 
+      marker-end="url(#triangle)"
+    />    
+    <circle
+      :cx="x2"
+      :cy="y2"
+      :r="stroke"
       stroke="black"
       fill="white"
       stroke-width="2"
     />
     <circle
-      :cx="x2"
-      :cy="y2"
-      :r="stroke - 1"
+      :cx="x1"
+      :cy="y1"
+      :r="stroke"
       stroke="black"
       fill="white"
       stroke-width="2"
-    /> -->
+    />    
+    <marker
+      id="triangle"
+      viewBox="0 0 10 10"
+      refX="10"
+      refY="5"
+      markerUnits="strokeWidth"
+      markerHeight="4"
+      orient="auto"
+    >
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+
     <!-- <marker
       id="dot"
       viewBox="0 0 10 10"
@@ -61,7 +82,7 @@
       :x2="x2"
       :y2="y2"
       marker-start="url(#dot)"
-      marker-end="url(#triangle)" -->
+      marker-end="url(#triangle)"
     stroke="red" :stroke-width="stroke" /> -->
   </svg>
 </template>
@@ -73,45 +94,48 @@ export default {
       return this.stroke * 3
     },
     padding() {
-      this.stroke / 2
+      return this.stroke * 2
     },
     angle() {
       return Math.atan((this.fromX - this.toX)/(this.toY - this.fromY))
     },
     corners() {
-      
+
     },
     left() {
-      return this.fromX < this.toX ? this.fromX : this.fromX - this.width;
+      return (this.fromX < this.toX ? this.fromX : this.toX) - this.padding;
     },
     top() {
-      return this.fromY < this.toY ? this.fromY : this.fromY - this.height;
+      return (this.fromY < this.toY ? this.fromY : this.toY) - this.padding;
     },
     width() {
-      return Math.max(Math.abs(this.fromX - this.toX), this.stroke * 3);
+      return Math.abs(this.fromX - this.toX) + this.padding * 2
+      //return Math.max(Math.abs(this.fromX - this.toX), this.stroke * 3);
     },
     height() {
+      return Math.abs(this.fromY - this.toY) + this.padding * 2
       return Math.max(Math.abs(this.fromY - this.toY), this.stroke * 3);
     },
     viewBox() {
-      return `${-this.stroke} ${-this.stroke} ${this.width + 2 * this.stroke} ${
-        this.height + 2 * this.stroke
-      }`;
+      return `0 0 ${this.width} ${this.height}`
+      // return `${-this.stroke} ${-this.stroke} ${this.width + 2 * this.stroke} ${
+      //   this.height + 2 * this.stroke
+      // }`;
     },
     offset() {
       return this.stroke * 1.5;
     },
     x1() {
-      return this.fromX < this.toX ? this.offset : this.width - this.offset;
+      return this.fromX < this.toX ? this.padding : this.width - this.padding;
     },
     y1() {
-      return this.fromY < this.toY ? this.offset : this.height - this.offset;
+      return this.fromY < this.toY ? this.padding : this.height - this.padding;
     },
     x2() {
-      return this.fromX < this.toX ? this.width - this.offset : this.offset;
+      return this.fromX < this.toX ? this.width - this.padding : this.padding;
     },
     y2() {
-      return this.fromY < this.toY ? this.height - this.offset : this.offset;
+      return this.fromY < this.toY ? this.height - this.padding : this.padding;
     },
     // x1() {
     //   return this.fromX < this.toX ? this.offset : this.width - this.offset;

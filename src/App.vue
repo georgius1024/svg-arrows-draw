@@ -1,4 +1,5 @@
 <template>
+  {{mouseX}}x{{mouseY}}
   <Arrow
     :fromX="originX"
     :fromY="originY"
@@ -18,6 +19,18 @@
       zIndex: 1000
     }"
   ></span>
+  <span
+    :style="{
+      position: 'absolute',
+      left: `${mouseX - 2}px`,
+      top: `${mouseY - 2}px`,
+      width: '4px',
+      height: '4px',
+      background: 'black',
+      borderRadius: '100%',
+      zIndex: 1000
+    }"
+  ></span>
 </template>
 
 <script>
@@ -30,8 +43,8 @@ export default {
     return {
       originX: 600,
       originY: 400,
-      mouseX: 100,
-      mouseY: 400,
+      mouseX: 150,
+      mouseY: 800,
     };
   },
   mounted() {
@@ -39,7 +52,7 @@ export default {
       this.mouseX = e.pageX;
       this.mouseY = e.pageY;
     };
-    //document.addEventListener('mousemove', this.mouseListener)
+    document.addEventListener('mousemove', this.mouseListener)
   },
   beforeUnmount() {
     document.removeEventListener("mousemove", this.mouseListener);
