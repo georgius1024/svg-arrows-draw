@@ -15,19 +15,20 @@
       markerHeight="2"
       orient="auto"
     >
-      <circle cx="5" cy="5" r="5" />
+      <circle cx="5" cy="5" r="4"  stroke="black" fill="white" stroke-width="2" />
     </marker>
 
     <marker
       id="triangle"
-      viewBox="0 0 10 10"
+      viewBox="0 0 20 20"
       refX="1"
       refY="5"
       markerUnits="strokeWidth"
-      markerHeight="3"
+      markerHeight="4"
       orient="auto"
     >
       <path d="M 0 0 L 10 5 L 0 10 z" />
+      <circle cx="15" cy="5" r="4" stroke="black" fill="white" stroke-width="2"/>
     </marker>
     <line
       :x1="x1"
