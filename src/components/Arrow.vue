@@ -6,7 +6,32 @@
     :viewBox="viewBox"
     :style="style"
   >
-    <marker
+    <rect
+      :x="0"
+      :y="0"
+      :width="width"
+      :height="height"
+      stroke="black"
+      fill="white"
+      stroke-width="1"
+    />
+    <!-- <circle
+      :cx="x1"
+      :cy="y1"
+      :r="stroke - 1"
+      stroke="black"
+      fill="white"
+      stroke-width="2"
+    />
+    <circle
+      :cx="x2"
+      :cy="y2"
+      :r="stroke - 1"
+      stroke="black"
+      fill="white"
+      stroke-width="2"
+    /> -->
+    <!-- <marker
       id="dot"
       viewBox="0 0 10 10"
       refX="1"
@@ -36,27 +61,45 @@
       :x2="x2"
       :y2="y2"
       marker-start="url(#dot)"
-      marker-end="url(#triangle)"
-      stroke="red"
-      :stroke-width="stroke"
-    />
+      marker-end="url(#triangle)" -->
+    stroke="red" :stroke-width="stroke" /> -->
   </svg>
 </template>
 <script>
 export default {
   props: ["fromX", "fromY", "toX", "toY", "stroke"],
   computed: {
+    minWidth() {
+      return this.stroke * 3
+    },
+    padding() {
+      this.stroke / 2
+    },
+    angle() {
+      return Math.atan((this.fromX - this.toX)/(this.toY - this.fromY))
+    },
+    corners() {
+      
+    },
+    left() {
+      return this.fromX < this.toX ? this.fromX : this.fromX - this.width;
+    },
+    top() {
+      return this.fromY < this.toY ? this.fromY : this.fromY - this.height;
+    },
     width() {
-      return 500; //Math.max(Math.abs(this.fromX - this.toX), this.stroke * 3);
+      return Math.max(Math.abs(this.fromX - this.toX), this.stroke * 3);
     },
     height() {
-      return 500; //Math.max(Math.abs(this.fromY - this.toY), this.stroke * 3);
+      return Math.max(Math.abs(this.fromY - this.toY), this.stroke * 3);
     },
     viewBox() {
-      return `0 0 ${this.width} ${this.height}`;
+      return `${-this.stroke} ${-this.stroke} ${this.width + 2 * this.stroke} ${
+        this.height + 2 * this.stroke
+      }`;
     },
     offset() {
-      return this.stroke * 3;
+      return this.stroke * 1.5;
     },
     x1() {
       return this.fromX < this.toX ? this.offset : this.width - this.offset;
@@ -69,12 +112,6 @@ export default {
     },
     y2() {
       return this.fromY < this.toY ? this.height - this.offset : this.offset;
-    },
-    left() {
-      return this.fromX < this.toX ? this.fromX : this.fromX - this.width;
-    },
-    top() {
-      return this.fromY < this.toY ? this.fromY : this.fromY - this.height;
     },
     // x1() {
     //   return this.fromX < this.toX ? this.offset : this.width - this.offset;
