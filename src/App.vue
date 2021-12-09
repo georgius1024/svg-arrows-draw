@@ -13,7 +13,7 @@ export default {
       originX: 800,
       originY: 600,
       mouseX: 100,
-      mouseY: 100
+      mouseY: 600
     }
   },
   mounted() {
@@ -21,7 +21,7 @@ export default {
       this.mouseX = e.pageX
       this.mouseY = e.pageY
     }
-    document.addEventListener('mousemove', this.mouseListener)
+    //document.addEventListener('mousemove', this.mouseListener)
   },
   beforeUnmount() {
     document.removeEventListener('mousemove', this.mouseListener)
